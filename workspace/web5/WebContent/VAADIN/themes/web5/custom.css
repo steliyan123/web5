@@ -12,4 +12,12 @@
 	  stroke: #ccc;
 	  stroke-width: 2px;
 	}
-	
+	.node .doc {
+	  background: url("/img/document.png") no-repeat;
+	}
+	.node .profile {
+	  background: url("/img/logo.png") no-repeat;
+	}
+	.node .topic {
+	  background: url("/img/genius.png") no-repeat;
+	}
