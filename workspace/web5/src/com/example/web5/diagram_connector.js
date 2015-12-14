@@ -5,7 +5,6 @@ window.com_example_web5_Diagram = function() {
     this.onStateChange = function() {
     	var dataString = this.getState().treeData;
     	var treedata = JSON.parse(dataString);
-    	console.log("lulu: ",treedata);
     	this.growTree(diagramElement,treedata);
     }	
 
