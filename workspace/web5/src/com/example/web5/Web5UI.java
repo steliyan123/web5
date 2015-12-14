@@ -24,29 +24,24 @@ public class Web5UI extends UI {
 	String s = "{\"name\": \"flare\",\"size\": 3812}";
 
 	@WebServlet(value = "/*", asyncSupported = true)
-	@VaadinServletConfiguration(productionMode = false, ui = Web5UI.class/*
-																			 * ,
-																			 * widgetset
-																			 * =
-																			 * "com.example.web5.widgetset"
-																			 */)
+	@VaadinServletConfiguration(productionMode = false, ui = Web5UI.class)
 	public static class Servlet extends VaadinServlet {
 	}
 
 	@Override
 	protected void init(VaadinRequest request) {
 
-		JSONObject obj = new JSONObject();
-
-		LinkedHashMap m1 = new LinkedHashMap();
 		LinkedHashMap childrenObj = new LinkedHashMap();
 		childrenObj.put("name", "BetweennessCentrality");
 		childrenObj.put("size", new Integer(3534));
+
 		LinkedList l1 = new LinkedList();
 		l1.add(childrenObj);
+
+		JSONObject obj = new JSONObject();
 		obj.put("name", "foo");
 		obj.put("children", l1);
-		// m1.put("children", l1);
+
 		StringWriter out = new StringWriter();
 		try {
 			obj.writeJSONString(out);

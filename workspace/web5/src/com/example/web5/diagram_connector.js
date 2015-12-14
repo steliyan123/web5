@@ -3,8 +3,7 @@ window.com_example_web5_Diagram = function() {
     
     // Handle changes from the server-side
     this.onStateChange = function() {
-    	var dataString = this.getState().treeData;
-    	var treedata = JSON.parse(dataString);
+    	var treedata = JSON.parse(this.getState().treeData);
     	this.growTree(diagramElement,treedata);
     }	
 
