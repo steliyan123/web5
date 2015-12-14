@@ -1,0 +1,9 @@
+@import "addons.scss";
+@import "web5theme.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in web5theme.scss */
+.web5theme {
+  @include addons;
+  @include web5theme;
+}

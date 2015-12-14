@@ -1,0 +1,39 @@
+@CHARSET "ISO-8859-1";
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+.node text { font: 12px sans-serif; }
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
+
+.node .document {
+  background: url("/img/document.png") no-repeat;
+}
+.node .author {
+  background: url("/img/profle.png") no-repeat;
+}
+.node .topic {
+  background: url("/img/genius.png") no-repeat;
+}
+
+.node {
+		 cursor: pointer;
+}
+http://localhost:8080/web5/APP/PUBLISHED/img/genius.png
+
+.hyper {
+	color: blue;
+	text-decoration: underline;
+}
+
+.hyper:hover {
+	color: yellow;
+	text-decoration: none;
+}
