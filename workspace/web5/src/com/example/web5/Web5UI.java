@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
@@ -35,13 +36,13 @@ public class Web5UI extends UI {
 		childrenObj.put("name", "BetweennessCentrality");
 		childrenObj.put("size", new Integer(3534));
 
-		LinkedList l1 = new LinkedList();
-		l1.add(childrenObj);
-
+		LinkedList listChildNodes = new LinkedList();
+		listChildNodes.add(childrenObj);
+		listChildNodes.add(childrenObj);
 		JSONObject obj = new JSONObject();
 		obj.put("name", "foo");
-		obj.put("children", l1);
-
+		obj.put("children", listChildNodes);
+		obj.put("children", listChildNodes);
 		StringWriter out = new StringWriter();
 		try {
 			obj.writeJSONString(out);
@@ -53,10 +54,11 @@ public class Web5UI extends UI {
 
 		Diagram diagram = new Diagram();
 		diagram.addTreeData(jsonText);
-		diagram.setHeight("600px");
-		diagram.setWidth("800px");
+		diagram.setHeight(Page.getCurrent().getBrowserWindowHeight() + "px");
+		diagram.setWidth(Page.getCurrent().getBrowserWindowWidth() + "px");
 		layout.setSpacing(true);
 		layout.addComponent(diagram);
+		layout.setSizeFull();
 		setContent(layout);
 	}
 

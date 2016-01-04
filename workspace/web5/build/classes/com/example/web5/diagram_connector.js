@@ -1,12 +1,32 @@
 window.com_example_web5_Diagram = function() {
     var diagramElement = this.getElement();
+    // this.getRpcProxy(): for getting an object with functions that will call
+	// the server-side
+    // TODO
+    var clientToServerRpc = this.getRpcProxy();
+    var serverToClientRpc = this.registerRpc();
+    //for registering an object with functions that will be
+	// called from the server.
+    var tree, labelClick, sanitizedNodes;
+   
     
     // Handle changes from the server-side
+    // re-draws the tree using the state variable treedata
     this.onStateChange = function() {
     	var treedata = JSON.parse(this.getState().treeData);
-    	this.growTree(diagramElement,treedata);
+    	tree = this.growTree(diagramElement,treedata);
     }	
-
+    
+    // returns the name of the node clicked by the user
+    this.clickTreeNodeLabel = function(){
+    	return labelClick;
+    	// TODO
+    }
+    // returns the whole tree JSON object
+    this.returnSanitizedTreeData = function (){
+    	// TODO
+    	return sanitizedNodes;
+    }
     this.growTree = function(diagramElement,treeData){
 		
 		// Calculate total nodes, max label length
@@ -21,7 +41,7 @@ window.com_example_web5_Diagram = function() {
 		// Misc. variables
 		var i = 0;
 		var duration = 750;
-		var root;
+		var root,clickLabel;
 		
 		// size of the diagram
 		var viewerWidth = $(diagramElement).width();
@@ -53,13 +73,14 @@ window.com_example_web5_Diagram = function() {
 		}
 
 		// Call visit function to establish maxLabelLength
-		visit(treeData, function (d) {
-		    totalNodes++;
-		    maxLabelLength = Math.max(d.name.length, maxLabelLength);
+		visit(treeData, 
+				function (d) {
+		    		totalNodes++;
+	    			maxLabelLength = Math.max(d.name.length, maxLabelLength);
 
-		}, function (d) {
-		    return d.children && d.children.length > 0 ? d.children : null;
-		});
+				}, function (d) {
+						return d.children && d.children.length > 0 ? d.children : null;
+				});
 
 
 		// sort the tree according to the node names
@@ -169,8 +190,7 @@ window.com_example_web5_Diagram = function() {
 		    nodes = tree.nodes(d);
 		    d3.event.sourceEvent.stopPropagation();
 		    // it's important that we suppress the mouseover event on the node being dragged. Otherwise it will absorb the mouseover event and the underlying node will not detect it d3.select(this).attr('pointer-events', 'none');
-		})
-		    .on("drag", function (d) {
+		}).on("drag", function (d) {
 		    if (d == root) {
 		        return;
 		    }
@@ -336,13 +356,20 @@ window.com_example_web5_Diagram = function() {
 
 		// Toggle children on click.
 
-		function click(d) {
+		function clickNode(d) {
 		    if (d3.event.defaultPrevented) return; // click suppressed
 		    d = toggleChildren(d);
 		    update(d);
 		    //centerNode(d);
 		}
+		function clickText(d){
+			if (d3.event.defaultPrevented) return; // click suppressed
+			labelClick =  d.name;
+			console.log(labelClick);
+	    	console.log(sanitizedNodes);
+	    	alert(JSON.stringify(sanitizedNodes));
 
+		}
 		function update(source) {
 		    // Compute the new height, function counts total children of root node and sets tree height accordingly.
 		    // This prevents the layout looking squashed when new nodes are made visible or looking sparse when nodes are removed
@@ -369,7 +396,8 @@ window.com_example_web5_Diagram = function() {
 
 		    // Set widths between levels based on maxLabelLength.
 		    nodes.forEach(function (d) {
-		        d.y = (d.depth * (maxLabelLength * 10)); //maxLabelLength * 10px
+		        d.y = (d.depth * (maxLabelLength * 10));
+		        //maxLabelLength * 10px
 		        // alternatively to keep a fixed scale one can set a fixed depth per level
 		        // Normalize for fixed-depth by commenting out below line
 		        // d.y = (d.depth * 500); //500px per level.
@@ -387,15 +415,15 @@ window.com_example_web5_Diagram = function() {
 		        .attr("class", "node")
 		        .attr("transform", function (d) {
 		        return "translate(" + source.y0 + "," + source.x0 + ")";
-		    })
-		        .on('click', click);
+		    });
 
 		    nodeEnter.append("circle")
 		        .attr('class', 'nodeCircle')
 		        .attr("r", 0)
 		        .style("fill", function (d) {
-		        return d._children ? "lightsteelblue" : "#fff";
-		    });
+		        	return d._children ? "lightsteelblue" : "#fff";
+		        })
+		        .on('click', clickNode);
 
 		    nodeEnter.append("text")
 		        .attr("x", function (d) {
@@ -409,7 +437,8 @@ window.com_example_web5_Diagram = function() {
 		        .text(function (d) {
 		        return d.name;
 		    })
-		        .style("fill-opacity", 0);
+		        .style("fill-opacity", 0)
+		        .on('click', clickText);
 
 		    // phantom node to give us mouseover in a radius around it
 		    nodeEnter.append("circle")
