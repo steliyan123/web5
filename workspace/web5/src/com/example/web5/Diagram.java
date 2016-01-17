@@ -4,6 +4,7 @@ import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 import com.vaadin.ui.JavaScriptFunction;
+import com.vaadin.ui.Notification;
 
 import elemental.json.JsonArray;
 
@@ -12,48 +13,33 @@ import elemental.json.JsonArray;
 @JavaScript({ "d3.min.js", "diagram_connector.js", "jquery-1.11.3.min.js" })
 public class Diagram extends AbstractJavaScriptComponent {
 
+	/*
+	 * public void setValue(String data) { getState().treeData = data; }
+	 * 
+	 * public String getValue() { return getState().treeData; }
+	 */
 	public Diagram() {
-		/*
-		 * constructor inherits super registers Client2Server RPC calls
-		 * initializes new rpc object and implements defined in the interface
-		 * methods
-		 */
-		// Register an RPC interface implementation for this component
-		registerRpc(new DiagramClientToServerRpc() {
-			@Override
-			public void onPlotClick() {
-				// TODO
-				// Notification.show("Clicked");
-			}
-		});
-
-		/*
-		 * addFunction(String functionName, JavaScriptFunction function)
-		 * Exposing server side API to JavaScript Registers a JavaScriptFunction
-		 * that can be called from the JavaScript using the provided name. A
-		 * JavaScript function with the provided name will be added to the
-		 * connector wrapper object (initially available as this). Calling that
-		 * JavaScript function will cause the call method in the registered
-		 * JavaScriptFunction to be invoked with the same arguments.
-		 */
-
+		// callback that will be called from the client-side
 		addFunction("onPlotClick",
-				// TODO
-				// Defines a method that is called by the client-side JavaScript
-				// function.
-				// When the corresponding JavaScript function is called, the
-				// call(JsonArray) method is invoked.
+
 				new JavaScriptFunction() {
 					@Override
 					public void call(JsonArray arguments) {
-						// int seriesIndex = (int) arguments.getNumber(0);
-						// int dataIndex = (int) arguments.getNumber(1);
+						String nodeName = (String) returnNodeName(arguments.getString(0));
+						// highlight(nodeName);
 						// Notification.show("Clicked");
-						// Notification.show("Clicked on [" + seriesIndex + ", "
-						// + dataIndex + "]");
 					}
 				});
 
+	}
+
+	public String returnNodeName(String name) {
+		Notification.show("The Name of the Node you Just clicked on is: " + name);
+		return "The Name of the Node you Just clicked on is: " + name;
+	}
+
+	public void highlight(String newName) {
+		callFunction("highlight", newName);
 	}
 
 	@Override
