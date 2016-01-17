@@ -1,13 +1,7 @@
 window.com_example_web5_Diagram = function() {
     var diagramElement = this.getElement();
-    // this.getRpcProxy(): for getting an object with functions that will call
-	// the server-side
-    // TODO
-    var clientToServerRpc = this.getRpcProxy();
-    var serverToClientRpc = this.registerRpc();
-    //for registering an object with functions that will be
-	// called from the server.
     var tree, labelClick, sanitizedNodes;
+    var self__ = this;
    
     
     // Handle changes from the server-side
@@ -16,6 +10,14 @@ window.com_example_web5_Diagram = function() {
     	var treedata = JSON.parse(this.getState().treeData);
     	tree = this.growTree(diagramElement,treedata);
     }	
+    
+    
+	//will be called from server-side
+	this.highlight = function(name) {
+		alert("Highligth called from js! Nov name: "+ name);
+		console.log("Nov name: ",name);
+		
+	};	
     
     // returns the name of the node clicked by the user
     this.clickTreeNodeLabel = function(){
@@ -365,10 +367,9 @@ window.com_example_web5_Diagram = function() {
 		function clickText(d){
 			if (d3.event.defaultPrevented) return; // click suppressed
 			labelClick =  d.name;
-			console.log(labelClick);
-	    	console.log(sanitizedNodes);
-	    	alert(JSON.stringify(sanitizedNodes));
-
+	
+			self__.onPlotClick(labelClick);
+			console.log("bla");
 		}
 		function update(source) {
 		    // Compute the new height, function counts total children of root node and sets tree height accordingly.
