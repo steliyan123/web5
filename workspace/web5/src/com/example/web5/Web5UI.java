@@ -33,14 +33,17 @@ public class Web5UI extends UI {
 	protected void init(VaadinRequest request) {
 
 		LinkedHashMap childrenObj = new LinkedHashMap();
-		childrenObj.put("name", "BetweennessCentrality");
-		childrenObj.put("size", new Integer(3534));
+		childrenObj.put("name", "Chemistry");
+		childrenObj.put("type", "Topic");
+		childrenObj.put("nodeId", new Integer(3534));
 
 		LinkedList listChildNodes = new LinkedList();
 		listChildNodes.add(childrenObj);
 		listChildNodes.add(childrenObj);
 		JSONObject obj = new JSONObject();
-		obj.put("name", "foo");
+		obj.put("name", "Science");
+		obj.put("type", "topic");
+		childrenObj.put("nodeId", new Integer(534));
 		obj.put("children", listChildNodes);
 		obj.put("children", listChildNodes);
 		StringWriter out = new StringWriter();

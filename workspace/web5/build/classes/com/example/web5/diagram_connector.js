@@ -1,6 +1,6 @@
 window.com_example_web5_Diagram = function() {
     var diagramElement = this.getElement();
-    var tree, labelClick, sanitizedNodes;
+    var tree, nodeName,nodeType,nodeId, sanitizedNodes;
     var self__ = this;
    
     
@@ -13,7 +13,7 @@ window.com_example_web5_Diagram = function() {
     
     
 	//will be called from server-side
-	this.highlight = function(name) {
+	this.displayMsg = function(name) {
 		alert("Highligth called from js! Nov name: "+ name);
 		console.log("Nov name: ",name);
 		
@@ -366,10 +366,11 @@ window.com_example_web5_Diagram = function() {
 		}
 		function clickText(d){
 			if (d3.event.defaultPrevented) return; // click suppressed
-			labelClick =  d.name;
+			nodeName =  d.name;
+			nodeType = d.type;
+			nodeId = d.nodeId;
 	
-			self__.onPlotClick(labelClick);
-			console.log("bla");
+			self__.onPlotClick(nodeName,nodeType,nodeId);
 		}
 		function update(source) {
 		    // Compute the new height, function counts total children of root node and sets tree height accordingly.
