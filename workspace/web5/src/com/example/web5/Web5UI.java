@@ -53,8 +53,6 @@ public class Web5UI extends UI {
 
 		Diagram diagram = new Diagram();
 		diagram.addTreeData(jsonText);
-		diagram.setHeight("600px");
-		diagram.setWidth("800px");
 		layout.setSpacing(true);
 		layout.addComponent(diagram);
 		setContent(layout);

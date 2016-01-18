@@ -35,7 +35,7 @@
 		<!-- Precompiled DefaultWidgetSet -->
 		<dependency org="com.vaadin" name="vaadin-client-compiled"
 			rev="&vaadin.version;" />
-
+		<dependency org="org.json" name="json" rev="20151123"/>
 		<!-- Vaadin client side, needed for widget set compilation -->
 		<dependency org="com.vaadin" name="vaadin-client" rev="&vaadin.version;"
 			 conf="widgetset-compile->default" />

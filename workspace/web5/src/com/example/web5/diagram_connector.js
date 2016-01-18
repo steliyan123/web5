@@ -1,12 +1,29 @@
 window.com_example_web5_Diagram = function() {
-    var diagramElement = this.getElement();
+    var diagramElement = this.getElement(),
+    	self = this;
     
     // Handle changes from the server-side
     this.onStateChange = function() {
     	var treedata = JSON.parse(this.getState().treeData);
     	this.growTree(diagramElement,treedata);
+    	clickListener();
+    	var a = $('.nodeText');
+    	a.click(function(e){
+    		
+    		var name = mnogoumenclick(e);
+    		self.onPlotClick(name);
+    		});
+    	
     }	
-
+    
+    this.displayMsg = function(name){
+    	
+    	console.log(name);
+    	
+    	
+    };
+    
+    
     this.growTree = function(diagramElement,treeData){
 		
 		// Calculate total nodes, max label length
@@ -24,8 +41,8 @@ window.com_example_web5_Diagram = function() {
 		var root;
 		
 		// size of the diagram
-		var viewerWidth = $(diagramElement).width();
-		var viewerHeight = $(diagramElement).height();
+		var viewerWidth = $(document).width();
+		var viewerHeight = $(document).height();
 
 		var tree = d3.layout.tree()
 		    .size([viewerHeight, viewerWidth]);
@@ -342,6 +359,12 @@ window.com_example_web5_Diagram = function() {
 		    update(d);
 		    //centerNode(d);
 		}
+		
+		function clickText(d) {
+		    if (d3.event.defaultPrevented) return; // click suppressed
+		
+		        return d.name;
+		}
 
 		function update(source) {
 		    // Compute the new height, function counts total children of root node and sets tree height accordingly.
@@ -409,7 +432,8 @@ window.com_example_web5_Diagram = function() {
 		        .text(function (d) {
 		        return d.name;
 		    })
-		        .style("fill-opacity", 0);
+		        .style("fill-opacity", 0)
+		        .on('click', clickText);
 
 		    // phantom node to give us mouseover in a radius around it
 		    nodeEnter.append("circle")
