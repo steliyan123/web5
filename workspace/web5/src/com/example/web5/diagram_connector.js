@@ -415,6 +415,7 @@ window.com_example_web5_Diagram = function() {
 		    var nodeEnter = node.enter().append("g")
 		        .call(dragListener)
 		        .attr("class", "node")
+		      //  .attr("class", function(d) { return d.type; })
 		        .attr("transform", function (d) {
 		        return "translate(" + source.y0 + "," + source.x0 + ")";
 		    });
@@ -426,7 +427,14 @@ window.com_example_web5_Diagram = function() {
 		        	return d._children ? "lightsteelblue" : "#fff";
 		        })
 		        .on('click', clickNode);
-
+		    nodeEnter.append("image")
+		      .attr("xlink:href", function(d) { return "/web5/APP/PUBLISHED/" + d.type+ ".png"; })
+		      .attr("x", "-6px")
+		      .attr("y", "-6px")
+		      .attr("width", "12px")
+		      .attr("height", "12px")
+		      .on('click', clickNode);
+		    
 		    nodeEnter.append("text")
 		        .attr("x", function (d) {
 		        return d.children || d._children ? -10 : 10;

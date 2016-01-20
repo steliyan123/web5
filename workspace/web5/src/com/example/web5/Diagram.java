@@ -31,7 +31,7 @@ import elemental.json.JsonArray;
 
 @StyleSheet({ "diagram.css" })
 @SuppressWarnings("serial")
-@JavaScript({ "d3.min.js", "diagram_connector.js", "jquery-1.11.3.min.js" })
+@JavaScript({ "d3.min.js", "diagram_connector.js", "jquery-1.11.3.min.js", "document.png", "topic.png", "author.png" })
 public class Diagram extends AbstractJavaScriptComponent {
 
 	public Diagram() {
